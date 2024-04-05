@@ -42,16 +42,28 @@ exports.delistProperty = async (req, res) => {
 // Search properties
 exports.searchProperties = async (req, res) => {
     const match = {};
-    if (req.query.search){
+    let properties;
+    if (req.query.search) {
         //search all properties that contain the search query
         match['$text'] = { $search: req.query.search };
-    }else{
+        properties = await Property.find(match);
+    } else if (req.query.owner) {
+        //search all properties owned by the owner
+        match['owner'] = req.query.owner;
+        properties = await Property.find(match);
+    } else if (req.query.id) {
+        //query by id
+        try{
+            properties = await Property.findById(req.query.id);
+        }catch(error){
+            res.status(404).send(error);
+        }
+    } else {
         //return all properties
-        match['$text'] = { $search: '' };
+        properties = await Property.find();
     }
 
     try {
-        const properties = await Property.find(match);
         res.send(properties);
     } catch (error) {
         res.status(500).send(error);
