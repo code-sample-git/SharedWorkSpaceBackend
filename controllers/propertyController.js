@@ -39,3 +39,22 @@ exports.delistProperty = async (req, res) => {
     }
 };
 
+// Search properties
+exports.searchProperties = async (req, res) => {
+    const match = {};
+    if (req.query.search){
+        //search all properties that contain the search query
+        match['$text'] = { $search: req.query.search };
+    }else{
+        //return all properties
+        match['$text'] = { $search: '' };
+    }
+
+    try {
+        const properties = await Property.find(match);
+        res.send(properties);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+};
+

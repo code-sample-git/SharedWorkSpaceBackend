@@ -29,6 +29,7 @@ const router = express.Router();
 router.post('/properties', auth, propertyController.listProperty);
 router.patch('/properties/:id', auth, propertyController.updateProperty);
 router.delete('/properties/:id', auth, propertyController.delistProperty);
+router.get('/properties', propertyController.searchProperties);
 
 // Workspace routes
 router.post('/properties/:propertyId/workspaces', auth, workspaceController.listWorkspace);
@@ -38,6 +39,7 @@ router.delete('/properties/:propertyId/workspaces/:id', auth, workspaceControlle
 // Search route
 router.get('/workspaces/search', workspaceController.searchWorkspaces);
 
+app.use('/api', router);
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
