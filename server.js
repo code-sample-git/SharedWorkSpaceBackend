@@ -35,6 +35,8 @@ router.get('/properties', propertyController.searchProperties);
 router.post('/properties/:propertyId/workspaces', auth, workspaceController.listWorkspace);
 router.patch('/properties/:propertyId/workspaces/:id', auth, workspaceController.updateWorkspace);
 router.delete('/properties/:propertyId/workspaces/:id', auth, workspaceController.delistWorkspace);
+router.get('/properties/:propertyId/workspaces', workspaceController.searchWorkspaces);
+router.get('/properties/:propertyId/workspaces/:id', workspaceController.searchWorkspaces);
 
 // Search route
 router.get('/workspaces/search', workspaceController.searchWorkspaces);

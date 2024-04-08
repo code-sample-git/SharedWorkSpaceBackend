@@ -42,11 +42,26 @@ exports.delistWorkspace = async (req, res) => {
 // Search workspaces
 exports.searchWorkspaces = async (req, res) => {
     const match = {};
-    if (req.query.neighborhood) match['neighborhood'] = req.query.neighborhood;
-    // Add more criteria as needed
+    let workspaces;
+    const property = req.params.propertyId;
+    const id = req.params.id;
+    console.log(property, id);
+
+    if (property) {
+        if(id){
+            // Search a specific workspace in the property
+            workspaces = await Workspace.findById(id);
+        }else{
+            // Search all workspaces in the property
+            match['property'] = property;
+            workspaces = await Workspace.find(match);
+        }
+
+    }else{
+        workspaces = await Workspace.find();
+    }
 
     try {
-        const workspaces = await Workspace.find(match);
         res.send(workspaces);
     } catch (error) {
         res.status(500).send(error);
@@ -86,19 +101,4 @@ exports.addReview = async (req, res) => {
     }
 };
 
-// Enhanced search with filters
-exports.searchWorkspaces = async (req, res) => {
-    // Construct a query object based on request parameters
-    const query = { ...req.query };
-    // Example: Convert query parameters to MongoDB search criteria
-    // Add more sophisticated filtering logic based on your requirements
-  
-    try {
-      const workspaces = await Workspace.find(query).populate('property');
-      res.send(workspaces);
-    } catch (error) {
-      res.status(500).send(error);
-    }
-  };
-  
 

@@ -6,6 +6,14 @@ const workspaceSchema = new mongoose.Schema({
     ref: 'Property',
     required: true,
   },
+  name: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
   type: {
     type: String,
     enum: ['meeting room', 'private office', 'desk'],
@@ -16,7 +24,7 @@ const workspaceSchema = new mongoose.Schema({
     required: true,
   },
   allowsSmoking: {
-    type: Boolean,
+    type: String,
     required: true,
   },
   availabilityDate: {
@@ -33,6 +41,10 @@ const workspaceSchema = new mongoose.Schema({
     required: true,
   },
   photos: [String],
+  size: {
+    type: String,
+    required: true,
+  },
   ratings: [{
     coworker: {
       type: mongoose.Schema.Types.ObjectId,
