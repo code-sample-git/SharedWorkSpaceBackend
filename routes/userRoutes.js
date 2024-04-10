@@ -23,9 +23,9 @@ router.post('/signup', async (req, res) => {
     const user = new User({ name, phone, email, password: hashedPassword, role });
     await user.save();
 
-    res.status(201).send('User created successfully');
+    res.status(201).send({result: true, message: 'User created successfully'});
   } catch (error) {
-    res.status(500).send(error.message);
+    res.status(500).send({result: false, message: error.message});
   }
 });
 
@@ -37,13 +37,13 @@ router.post('/login', async (req, res) => {
     // Find user by email
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).send('Invalid credentials');
+      return res.status(400).send({result: false, message: 'Invalid credentials'});
     }
 
     // Check password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).send('Invalid credentials');
+      return res.status(400).send({result: false, message: 'Invalid credentials'});
     }
 
     // Generate token
@@ -51,7 +51,7 @@ router.post('/login', async (req, res) => {
 
     res.json({ token });
   } catch (error) {
-    res.status(500).send(error.message);
+    res.status(500).send({result: false, message: error.message});
   }
 });
 
