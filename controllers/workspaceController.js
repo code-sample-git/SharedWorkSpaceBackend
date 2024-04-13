@@ -71,11 +71,11 @@ exports.searchWorkspaces = async (req, res) => {
 // Add a rating
 exports.addRating = async (req, res) => {
     try {
-        const workspace = await Workspace.findById(req.params.workspaceId);
+        const workspace = await Workspace.findById(req.params.id);
         if (!workspace) {
             return res.status(404).send();
         }
-        workspace.ratings.push({ coworker: req.user._id, rating: req.body.rating });
+        workspace.ratings.push({ coworker: req.user._id, rating: req.body.rating, review: req.body.comment, username: req.user.name});
         await workspace.save();
 
         // Optionally, calculate the new average rating

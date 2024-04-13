@@ -36,6 +36,7 @@ router.get('/properties', propertyController.searchProperties);
 
 // Workspace routes
 router.post('/properties/:propertyId/workspaces', auth, workspaceController.listWorkspace);
+router.post('/properties/:propertyId/workspaces/:id/ratings', auth, workspaceController.addRating);
 router.patch('/properties/:propertyId/workspaces/:id', auth, workspaceController.updateWorkspace);
 router.delete('/properties/:propertyId/workspaces/:id', auth, workspaceController.delistWorkspace);
 router.get('/properties/:propertyId/workspaces', workspaceController.searchWorkspaces);
