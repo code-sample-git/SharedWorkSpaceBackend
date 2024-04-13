@@ -75,7 +75,7 @@ exports.addRating = async (req, res) => {
         if (!workspace) {
             return res.status(404).send();
         }
-        workspace.ratings.push({ coworker: req.user._id, rating: req.body.rating, review: req.body.comment, username: req.user.name});
+        workspace.ratings.push({ coworker: req.user._id, rating: req.body.rating, comment: req.body.comment, username: req.user.name});
         await workspace.save();
 
         // Optionally, calculate the new average rating

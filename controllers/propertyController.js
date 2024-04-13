@@ -1,4 +1,5 @@
 const Property = require('../models/Property');
+const User = require('../models/User');
 
 exports.listProperty = async (req, res) => {
     try {
@@ -38,6 +39,40 @@ exports.delistProperty = async (req, res) => {
         res.status(500).send(error);
     }
 };
+
+exports.getPropertyOwner = async (req, res) => {
+    let response = {
+        result : false,
+        message : "No owner found"
+    };
+    try{
+        const property = await Property.findOne({ _id: req.params.id });
+        if (!property) {
+            return res.status(404).send();
+        }
+        const owenId = property.owner;
+        console.log("owenId: " + owenId);
+        //Get the owner details
+        const owner = await User.findOne({ _id: owenId });
+        if(owner){
+            response.result = true;
+            //send back the owner contact
+            const ownerContact = {
+                name: owner.name,
+                phone: owner.phone,
+                email: owner.email
+            };
+            response.message = ownerContact;
+        }else{
+            response.message = "No owner found";
+        }
+        res.send(response);
+
+    }catch(error){
+        console.log(error);
+        res.status(500).send(error);
+    }
+}
 
 // Search properties
 exports.searchProperties = async (req, res) => {

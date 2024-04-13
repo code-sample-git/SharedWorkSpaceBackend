@@ -33,6 +33,7 @@ router.post('/properties', auth, propertyController.listProperty);
 router.patch('/properties/:id', auth, propertyController.updateProperty);
 router.delete('/properties/:id', auth, propertyController.delistProperty);
 router.get('/properties', propertyController.searchProperties);
+router.get('/properties/:id/owner', auth, propertyController.getPropertyOwner);
 
 // Workspace routes
 router.post('/properties/:propertyId/workspaces', auth, workspaceController.listWorkspace);

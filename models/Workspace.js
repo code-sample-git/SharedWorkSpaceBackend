@@ -52,6 +52,7 @@ const workspaceSchema = new mongoose.Schema({
     },
     rating: Number,
     comment: String,
+    username: String
   }],
   reviews: [{
     coworker: {
